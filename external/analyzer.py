@@ -202,6 +202,12 @@ def analyze_json(data):
     return result
 
 
+def run_analyzer(input_path, output_path):
+    data = load_data(input_path)
+    data = analyze_json(data)
+    dump_data(data, output_path)
+
+
 if __name__ == "__main__":
     args = parse_args()
     input_path = args.input
