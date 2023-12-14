@@ -55,11 +55,11 @@ def create_artifacts_dir():
     DATA_PATH.mkdir(parents=True, exist_ok=True)
 
 
-def load_data(file):
+def load_data(file: Path):
     path = DATA_PATH / file
     return json.loads(path.read_text())
 
 
-def dump_data(file, data):
+def dump_data(file: Path, data: dict):
     output_file = DATA_PATH / file
     output_file.write_text(json.dumps(data, indent=4))

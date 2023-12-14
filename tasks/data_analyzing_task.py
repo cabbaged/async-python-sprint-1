@@ -1,17 +1,18 @@
 import logging
+from queue import PriorityQueue
 
 from utils import dump_data
 
 
 class DataAnalyzingTask:
-    def analyze(self, city, city_data, priority_queue):
+    def analyze(self, city: str, city_data: dict, priority_queue: PriorityQueue):
         logging.info(f'Start analyzing {city}')
         priority_queue.put((
             (-city_data['average_temp_for_period'], -city_data['good_weather_hours_for_period']),
             (city, city_data)
         ))
 
-    def write_rating(self, priority_queue):
+    def write_rating(self, priority_queue: PriorityQueue):
         logging.info('Start writing')
         prev_key = None
         rating = 0

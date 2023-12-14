@@ -1,11 +1,12 @@
 import logging
+from queue import Queue
 
 from external.client import YandexWeatherAPI
 from utils import dump_data, get_url_by_city_name
 
 
 class DataFetchingTask:
-    def fetch_weather(self, city: str, output_queue):
+    def fetch_weather(self, city: str, output_queue: Queue):
         logging.info(f'Start fetching {city}')
         data_url = get_url_by_city_name(city)
         try:
