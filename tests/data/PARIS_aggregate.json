@@ -1,0 +1,16 @@
+{
+  "2022-05-26": {
+    "average": 17.636,
+    "good_weather_hours": 9
+  },
+  "2022-05-27": {
+    "average": 17.364,
+    "good_weather_hours": 11
+  },
+  "2022-05-28": {
+    "average": 17.0,
+    "good_weather_hours": 11
+  },
+  "good_weather_hours_for_period": 31,
+  "average_temp_for_period": 17.333333333333332
+}

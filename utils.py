@@ -1,3 +1,6 @@
+import json
+from pathlib import Path
+
 CITIES = {
     "MOSCOW": "https://code.s3.yandex.net/async-module/moscow-response.json",
     "PARIS": "https://code.s3.yandex.net/async-module/paris-response.json",
@@ -43,3 +46,20 @@ def get_url_by_city_name(city_name):
         return CITIES[city_name]
     except KeyError:
         raise Exception("Please check that city {} exists".format(city_name))
+
+
+DATA_PATH = Path(__file__).parent / 'artifacts'
+
+
+def create_artifacts_dir():
+    DATA_PATH.mkdir(parents=True, exist_ok=True)
+
+
+def load_data(file: Path):
+    path = DATA_PATH / file
+    return json.loads(path.read_text())
+
+
+def dump_data(file: Path, data: dict):
+    output_file = DATA_PATH / file
+    output_file.write_text(json.dumps(data, indent=4))
