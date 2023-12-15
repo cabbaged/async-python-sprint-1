@@ -5,7 +5,8 @@ from external.analyzer import run_analyzer
 
 
 class DataCalculationTask:
-    def analyze_city(self, city: str, queue: Queue):
+    @staticmethod
+    def analyze_city(city: str, queue: Queue):
         logging.info(f'Start calculating {city}')
         run_analyzer(
             f'./artifacts/{city}_weather.json',

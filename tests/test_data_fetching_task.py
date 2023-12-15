@@ -19,7 +19,7 @@ def test_data_fetching_task():
     with (mock.patch('tasks.data_fetching_task.dump_data') as mock_dump,
           mock.patch.object(YandexWeatherAPI, 'get_forecasting') as mock_api):
         mock_api.side_effect = get_forecasting
-        DataFetchingTask().fetch_weather(city, queue)
+        DataFetchingTask.fetch_weather(city, queue)
         assert city == queue.get(block=False)
         mock_dump.assert_called_with(f'{city}_weather.json', {'valid_data': 'valid_data'})
 
@@ -30,7 +30,7 @@ def test_data_fetching_task_empty_data():
     with (mock.patch('tasks.data_fetching_task.dump_data') as mock_dump,
           mock.patch.object(YandexWeatherAPI, 'get_forecasting') as mock_api):
         mock_api.side_effect = get_forecasting
-        DataFetchingTask().fetch_weather(city, queue)
+        DataFetchingTask.fetch_weather(city, queue)
         assert queue.empty()
         mock_dump.assert_not_called()
 
@@ -41,6 +41,6 @@ def test_data_fetching_task_negative_code():
     with (mock.patch('tasks.data_fetching_task.dump_data') as mock_dump,
           mock.patch.object(YandexWeatherAPI, 'get_forecasting') as mock_api):
         mock_api.side_effect = Exception('404')
-        DataFetchingTask().fetch_weather(city, queue)
+        DataFetchingTask.fetch_weather(city, queue)
         assert queue.empty()
         mock_dump.assert_not_called()

@@ -1,18 +1,21 @@
 import logging
+from pprint import pformat
 from queue import PriorityQueue
 
 from utils import dump_data
 
 
 class DataAnalyzingTask:
-    def analyze(self, city: str, city_data: dict, priority_queue: PriorityQueue):
+    @staticmethod
+    def analyze(city: str, city_data: dict, priority_queue: PriorityQueue):
         logging.info(f'Start analyzing {city}')
         priority_queue.put((
             (-city_data['average_temp_for_period'], -city_data['good_weather_hours_for_period']),
             (city, city_data)
         ))
 
-    def write_rating(self, priority_queue: PriorityQueue):
+    @staticmethod
+    def write_rating(priority_queue: PriorityQueue):
         logging.info('Start writing')
         prev_key = None
         rating = 0
@@ -35,4 +38,5 @@ class DataAnalyzingTask:
         logging.info('End writing')
         dump_data('result.json', res)
         logging.info('Check results in artifacts/result.json file')
+        logging.info(f'{pformat(res)}')
         return res
