@@ -32,30 +32,30 @@ if __name__ == '__main__':
     with ThreadPool(processes=5) as thread_pool, multiprocessing.Pool() as process_pool:
         for city in CITIES:
             active_tasks.append(
-                thread_pool.apply_async(DataFetchingTask().fetch_weather, (city, fetched_cities))
+                thread_pool.apply_async(DataFetchingTask.fetch_weather, (city, fetched_cities))
             )
 
         while active_tasks:
             while not fetched_cities.empty():
                 fetched_city = fetched_cities.get(block=False)
                 active_tasks.append(
-                    process_pool.apply_async(DataCalculationTask().analyze_city, (fetched_city, calculated_cities))
+                    process_pool.apply_async(DataCalculationTask.analyze_city, (fetched_city, calculated_cities))
                 )
 
             while not calculated_cities.empty():
                 calculated_city = calculated_cities.get(block=False)
-                task = process_pool.apply_async(DataAggregationTask().aggregate, (calculated_city, aggregated_cities))
+                task = process_pool.apply_async(DataAggregationTask.aggregate, (calculated_city, aggregated_cities))
                 active_tasks.append(task)
                 aggregation_result[calculated_city] = task
 
             while not aggregated_cities.empty():
                 aggregated_city, aggregated_city_data = aggregated_cities.get(block=False)
                 active_tasks.append(
-                    process_pool.apply_async(DataAnalyzingTask().analyze,
+                    process_pool.apply_async(DataAnalyzingTask.analyze,
                                              (aggregated_city, aggregated_city_data, rating_queue))
                 )
 
             active_tasks = [task for task in active_tasks if not task.ready()]
 
-    DataAnalyzingTask().write_rating(rating_queue)
+    DataAnalyzingTask.write_rating(rating_queue)
     manager.shutdown()

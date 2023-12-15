@@ -9,7 +9,7 @@ def test_data_fetching_task():
     city = 'MOSCOW'
     with mock.patch('tasks.data_aggregation_task.load_data') as load_mock:
         load_mock.side_effect = load_data
-        DataAggregationTask().aggregate(city, queue)
+        DataAggregationTask.aggregate(city, queue)
         handled_city, city_data = queue.get(block=False)
         assert handled_city == city
         assert city_data == load_data(f'{city}_aggregate.json')

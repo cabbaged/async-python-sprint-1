@@ -6,7 +6,8 @@ from utils import dump_data, get_url_by_city_name
 
 
 class DataFetchingTask:
-    def fetch_weather(self, city: str, output_queue: Queue):
+    @staticmethod
+    def fetch_weather(city: str, output_queue: Queue):
         logging.info(f'Start fetching {city}')
         data_url = get_url_by_city_name(city)
         try:

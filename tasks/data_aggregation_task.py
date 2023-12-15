@@ -19,7 +19,8 @@ class AggregateCalculator:
 
 
 class DataAggregationTask:
-    def aggregate(self, city: str, output_queue: Queue):
+    @staticmethod
+    def aggregate(city: str, output_queue: Queue):
         logging.info(f'Start aggregating {city}')
         temperature_aggregator = AggregateCalculator()
         good_weather_hours_aggregator = AggregateCalculator()
